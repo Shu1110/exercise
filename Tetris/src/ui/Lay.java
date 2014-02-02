@@ -12,18 +12,19 @@ import javax.swing.ImageIcon;
  *
  */
 
-public class Lay {
-	private int x;	//绘制窗体时x坐标
-	private int y;	//绘制窗体时y坐标
-	private int w;	//绘制窗体的宽度
-	private int h;	//绘制窗体的高度
+public abstract class Lay {
+	protected int x;	//绘制窗体时x坐标
+	protected int y;	//绘制窗体时y坐标
+	protected int w;	//绘制窗体的宽度
+	protected int h;	//绘制窗体的高度
 	
-	public static final int SIZE=5;
-	public static Image WINDOW_IMG=new ImageIcon("Graphics/window/window.png").getImage();
-	public static int WINDOW_W=WINDOW_IMG.getWidth(null);
-	public static int WINDOW_H=WINDOW_IMG.getHeight(null);
+	protected static final int PADDING=16;
+	private static final int SIZE=5;
+	private static Image WINDOW_IMG=new ImageIcon("Graphics/window/window.png").getImage();
+	private static int WINDOW_W=WINDOW_IMG.getWidth(null);
+	private static int WINDOW_H=WINDOW_IMG.getHeight(null);
 
-	public Lay(int x,int y,int w,int h){
+	protected Lay(int x,int y,int w,int h){
 		this.x=x;
 		this.y=y;
 		this.w=w;
@@ -33,7 +34,7 @@ public class Lay {
 	 * 绘制窗口方法
 	 * @param g
 	 */
-	public void createWindow(Graphics g){
+	protected void createWindow(Graphics g){
 		//绘制图片的左上角
 		g.drawImage(WINDOW_IMG, x, y, x+SIZE, y+SIZE, 0, 0, SIZE, SIZE, null);
 		//绘制图片的中上
@@ -55,4 +56,11 @@ public class Lay {
 
 		
 	}
+	
+	/**
+	 * 具体绘制窗口
+	 * @author xinting
+	 * @param g
+	 */
+	abstract public void paint(Graphics g);
 }

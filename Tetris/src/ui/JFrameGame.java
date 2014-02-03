@@ -3,8 +3,8 @@ import javax.swing.*;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-public class FrameGame extends JFrame {
-	public FrameGame(){
+public class JFrameGame extends JFrame {
+	public JFrameGame(){
 		this.setTitle("Java¶íÂÞË¹·½¿é");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(1162, 676);
@@ -14,7 +14,7 @@ public class FrameGame extends JFrame {
 		int x=(screen.width-this.getWidth())/2;
 		int y=(screen.height-this.getHeight())/2-32;
 		this.setLocation(x, y);
-		this.setContentPane(new PanelGame());
+		this.setContentPane(new JPanelGame());
 	}
 
 }

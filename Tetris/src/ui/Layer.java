@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
  *
  */
 
-public abstract class Lay {
+public abstract class Layer {
 	protected int x;	//绘制窗体时x坐标
 	protected int y;	//绘制窗体时y坐标
 	protected int w;	//绘制窗体的宽度
@@ -24,7 +24,7 @@ public abstract class Lay {
 	private static int WINDOW_W=WINDOW_IMG.getWidth(null);
 	private static int WINDOW_H=WINDOW_IMG.getHeight(null);
 
-	protected Lay(int x,int y,int w,int h){
+	protected Layer(int x,int y,int w,int h){
 		this.x=x;
 		this.y=y;
 		this.w=w;

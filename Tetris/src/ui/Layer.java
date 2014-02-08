@@ -5,6 +5,9 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import config.ConfigFactory;
+import config.GameConfig;
+
 /** 
  * 绘制窗体；
  * 
@@ -18,8 +21,16 @@ public abstract class Layer {
 	protected int w;	//绘制窗体的宽度
 	protected int h;	//绘制窗体的高度
 	
-	protected static final int PADDING=16;
-	private static final int SIZE=5;
+	protected static final int PADDING;
+	private static final int SIZE;
+	
+	static{
+		//获得游戏配置
+		GameConfig cfg=ConfigFactory.getGameConfig();
+		PADDING=cfg.getPadding();
+		SIZE=cfg.getWindowSize();
+	}
+	
 	private static Image WINDOW_IMG=new ImageIcon("Graphics/window/window.png").getImage();
 	private static int WINDOW_W=WINDOW_IMG.getWidth(null);
 	private static int WINDOW_H=WINDOW_IMG.getHeight(null);

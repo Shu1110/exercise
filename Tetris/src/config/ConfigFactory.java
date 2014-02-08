@@ -10,7 +10,10 @@ public class ConfigFactory {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * 
+	 * @return GameConfig∂‘œÛ
+	 */
 	public static GameConfig getGameConfig(){
 		return GAME_CONFIG;
 	}

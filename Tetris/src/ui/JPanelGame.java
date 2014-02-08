@@ -10,11 +10,32 @@ import javax.swing.*;
 import config.ConfigFactory;
 import config.GameConfig;
 import config.LayerConfig;
+import control.GameControl;
+import control.PlayerControl;
 public class JPanelGame extends JPanel{
 	//创建窗体数组
 	private List<Layer> layers=null;
 	
 	public JPanelGame(){
+		//初始化组件
+		initComponent();
+		//初始化层
+		initLayer();
+		
+	}
+	
+	/**
+	 * 初始化组件
+	 */
+	private void initComponent(){
+		GameControl ctrl=new GameControl(this);
+		this.addKeyListener(new PlayerControl(ctrl));
+	}
+	
+	/**
+	 * 初始化层
+	 */
+	private void initLayer(){
 		try{
 			//获得游戏配置
 			GameConfig cfg=ConfigFactory.getGameConfig();
@@ -38,27 +59,16 @@ public class JPanelGame extends JPanel{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-//		lays=new Layer[]{
-//				new LayerBackGround(0,0,0,0),
-//				new LayerDataBase(41,32,330,277),
-//				new LayerDisk(41,341,330,277),
-//				new LayerGame(412,32,330,586),
-//				new LayerButton(783,32,330,116),
-//				new LayerNext(783,180,180,148),
-//				new LayerLevel(963,180,150,148),
-//				new LayerPoint(783,360,330,200)
-//		};
 	}
-	/**
-	 * @Override
-	 */
+	
+	@Override 
 	public void paintComponent(Graphics g){
-		
-		for(int i=0;i<layers.size();i++){
-		//构建窗体
-			layers.get(i).paint(g);
-		}
+		//调用基类方法
+		super.paintComponent(g);
+		//绘制游戏界面
+		for(int i=0;i<layers.size();layers.get(i++).paint(g));
+		//返回焦点
+		this.requestFocus();
 	}
 
 }

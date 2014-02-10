@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 
 import config.ConfigFactory;
 import config.GameConfig;
+import dto.GameDto;
 
 /** 
  * 绘制窗体；
@@ -23,7 +24,10 @@ public abstract class Layer {
 	
 	protected static final int PADDING;
 	private static final int SIZE;
-	
+	/**
+	 * dto数据源
+	 */
+	protected GameDto dto=null;
 	static{
 		//获得游戏配置
 		GameConfig cfg=ConfigFactory.getGameConfig();
@@ -68,6 +72,9 @@ public abstract class Layer {
 		
 	}
 	
+	public void setDto(GameDto dto) {
+		this.dto = dto;
+	}
 	/**
 	 * 具体绘制窗口
 	 * @author xinting

@@ -1,39 +1,47 @@
 package ui;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import config.ConfigFactory;
 import config.GameConfig;
 import config.LayerConfig;
-import control.GameControl;
 import control.PlayerControl;
+import dto.GameDto;
 public class JPanelGame extends JPanel{
-	//创建窗体数组
+	
 	private List<Layer> layers=null;
 	
-	public JPanelGame(){
+	private GameDto dto =null;
+	public JPanelGame(GameDto dto){
+		//获得dto对象
+		this.dto=dto;
 		//初始化组件
 		initComponent();
 		//初始化层
 		initLayer();
 		
 	}
+	/**
+	 * 安装游戏玩家控制器
+	 * @param control
+	 */
+	public void setGameControl(PlayerControl control){
+		this.addKeyListener(control);
+	}
 	
 	/**
 	 * 初始化组件
 	 */
 	private void initComponent(){
-		GameControl ctrl=new GameControl(this);
-		this.addKeyListener(new PlayerControl(ctrl));
+		
 	}
 	
 	/**
-	 * 初始化层
+	 * 初始化层 
 	 */
 	private void initLayer(){
 		try{
@@ -50,11 +58,13 @@ public class JPanelGame extends JPanel{
 				//获得构造函数
 				Constructor<?> ctr=cls.getConstructor(int.class,int.class,int.class,int.class);
 				//调用构造函数创建对象
-				Layer l=(Layer)ctr.newInstance(
+				Layer layer=(Layer)ctr.newInstance(
 					layerCfg.getX(),layerCfg.getY(),layerCfg.getW(),layerCfg.getH()
 				);
+				//设置游戏数据对象
+				layer.setDto(this.dto);
 				//把创建的Layer对象放入集合
-				layers.add(l);
+				layers.add(layer);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

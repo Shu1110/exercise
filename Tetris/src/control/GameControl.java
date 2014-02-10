@@ -19,7 +19,13 @@ public class GameControl {
 	 */
 	private GameService gameService;
 	
-	public GameControl(JPanelGame panelGame){
+	public GameControl(JPanelGame panelGame,GameService gameService){
 		this.panelGame=panelGame;
+		this.gameService=gameService;
+	}
+
+	public void test() {
+		this.gameService.gameTest();
+		this.panelGame.repaint();
 	}
 }

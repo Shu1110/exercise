@@ -7,7 +7,7 @@ import config.GameConfig;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 public class JFrameGame extends JFrame {
-	public JFrameGame(){
+	public JFrameGame(JPanelGame panelGame){
 		//»ñµÃÓÎÏ·ÅäÖÃ
 		GameConfig cfg=ConfigFactory.getGameConfig();
 		this.setTitle(cfg.getTitle());
@@ -19,7 +19,8 @@ public class JFrameGame extends JFrame {
 		int x=screen.width-this.getWidth()>>1;
 		int y=(screen.height-this.getHeight()>>1)-cfg.getWindowUp();
 		this.setLocation(x, y);
-		this.setContentPane(new JPanelGame());
+		this.setContentPane(panelGame);
+		this.setVisible(true);
 	}
 
 }

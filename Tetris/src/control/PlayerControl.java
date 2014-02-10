@@ -1,12 +1,11 @@
 package control;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class PlayerControl implements KeyListener{
-	/**
-	 * 游戏总控制器
-	 */
+public class PlayerControl extends KeyAdapter{
+	
 	private GameControl gameControl;
 	
 	public PlayerControl(GameControl gameControl){
@@ -14,18 +13,14 @@ public class PlayerControl implements KeyListener{
 		
 	}
 	
-	
+	/**
+	 * 键盘按下事件
+	 */
 	@Override
-	public void keyPressed(KeyEvent arg0) {}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		
-		
+	public void keyPressed(KeyEvent e) {
+		this.gameControl.test();
 	}
 
-	@Override
-	public void keyTyped(KeyEvent arg0) {}
 	
 
 }

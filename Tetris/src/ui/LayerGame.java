@@ -8,6 +8,8 @@ public class LayerGame extends Layer {
 	}
 	public void paint(Graphics g){
 		this.createWindow(g);
+		String temp=Integer.toString(this.dto.getNowPoint());
+		g.drawString(temp, this.x+PADDING, this.y+PADDING+64);
 	}
 
 }

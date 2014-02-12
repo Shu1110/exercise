@@ -19,16 +19,16 @@ public class PlayerControl extends KeyAdapter{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_E:
+		case KeyEvent.VK_UP:
 			this.gameControl.keyUp();
 			break;
-		case KeyEvent.VK_D:
+		case KeyEvent.VK_DOWN:
 			this.gameControl.keyDown();
 			break;
-		case KeyEvent.VK_S:
+		case KeyEvent.VK_LEFT:
 			this.gameControl.keyLeft();
 			break;
-		case KeyEvent.VK_F:
+		case KeyEvent.VK_RIGHT:
 			this.gameControl.keyRight();
 			break;
 		}

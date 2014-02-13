@@ -9,13 +9,13 @@ import javax.swing.ImageIcon;
 
 public class LayerGame extends Layer {
 	
-	private static Image ACT=new ImageIcon("Graphics/game/rect.png").getImage();
+	private static final Image ACT=new ImageIcon("Graphics/game/rect.png").getImage();
 
 	//Ó²±àÂë ÅäÖÃÎÄ¼ş
 	/**
 	 * ×óÎ»ÒÆÆ«ÒÆÁ¿
 	 */
-	private static int SIZE_ROL=5;
+	private static final int SIZE_ROL=5;
 	
 	public LayerGame(int x,int y,int w,int h){
 		super(x, y, w, h);

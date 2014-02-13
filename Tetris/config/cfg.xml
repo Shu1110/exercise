@@ -6,9 +6,9 @@
 		<layer className="ui.LayerDisk" x="41" y="341" w="330" h="277"/>
 		<layer className="ui.LayerGame" x="412" y="32" w="330" h="586"/>
 		<layer className="ui.LayerButton" x="783" y="32" w="330" h="116"/>
-		<layer className="ui.LayerNext" x="783" y="180" w="180" h="148"/>
-		<layer className="ui.LayerLevel" x="963" y="180" w="150" h="148"/>
-		<layer className="ui.LayerPoint" x="783" y="360" w="330" h="200"/>
+		<layer className="ui.LayerNext" x="783" y="180" w="180" h="116"/>
+		<layer className="ui.LayerLevel" x="963" y="180" w="150" h="116"/>
+		<layer className="ui.LayerPoint" x="783" y="328" w="330" h="200"/>
 	</frame>
 	<system>
 	

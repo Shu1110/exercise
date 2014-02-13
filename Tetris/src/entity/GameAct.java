@@ -34,7 +34,10 @@ public class GameAct {
 	public GameAct(int typeCode){
 		this.init(typeCode);
 	}
-	
+	/**
+	 * 初始化方块
+	 * @param typeCode
+	 */
 	public void init(int typeCode) {
 		this.typeCode=typeCode;
 		Point[] points=TYPE_CONFIG.get(typeCode);
@@ -68,6 +71,7 @@ public class GameAct {
 	}
 	/**
 	 * 方块旋转
+	 * @param gameMap
 	 */
 	public void round(boolean[][] gameMap){
 		if(this.typeCode==4){

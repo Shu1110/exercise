@@ -51,6 +51,12 @@ public class GameControl {
 		this.gameService.keyRight();
 		this.panelGame.repaint();
 	}
+	
+	//TODO=====================≤‚ ‘∑Ω∑®=======================
+	public void testLevelUp() {
+		this.gameService.testLevelUp();
+		this.panelGame.repaint();
+	}
 
 	
 }

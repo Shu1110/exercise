@@ -52,8 +52,12 @@ public class GameService {
 		//TODO		算分操作
 		//TODO			判断是否升级
 		//TODO			升级
-		//刷新一个新的方块
-		this.dto.getGameAct().init(random.nextInt(MAX_TYPE));
+		//创建下一个方块
+		this.dto.getGameAct().init(this.dto.getNext());
+
+		//随机生成再下一个方块
+		this.dto.setNext(random.nextInt(MAX_TYPE));
+			
 	}
 	/**
 	 * 方块操作   左
@@ -67,6 +71,11 @@ public class GameService {
 	 */
 	public void keyRight() {
 		this.dto.getGameAct().move(1, 0,this.dto.getGameMap());
+	}
+	
+	//TODO=====================测试方法=======================
+	public void testLevelUp() {
+		this.dto.setNowLevel(this.dto.getNowLevel()+1);
 	}
 	
 }

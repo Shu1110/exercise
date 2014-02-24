@@ -75,7 +75,17 @@ public class GameService {
 	
 	//TODO=====================≤‚ ‘∑Ω∑®=======================
 	public void testLevelUp() {
-		this.dto.setNowLevel(this.dto.getNowLevel()+1);
+		int point=this.dto.getNowPoint();
+		int rmLine=this.dto.getNowRemoveLine();
+		int lv=this.dto.getNowLevel();
+		point+=10;
+		rmLine+=1;
+		if(rmLine % 20==0){
+			lv+=1;
+		}
+		this.dto.setNowPoint(point);	
+		this.dto.setNowLevel(lv);
+		this.dto.setNowRemoveLine(rmLine);
 	}
 	
 }

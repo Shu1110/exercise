@@ -8,7 +8,8 @@
 		<layer className="ui.LayerButton" x="783" y="32" w="330" h="116"/>
 		<layer className="ui.LayerNext" x="783" y="180" w="180" h="116"/>
 		<layer className="ui.LayerLevel" x="963" y="180" w="150" h="116"/>
-		<layer className="ui.LayerPoint" x="783" y="328" w="330" h="200"/>
+		<layer className="ui.LayerPoint" x="783" y="328" w="330" h="160"/>
+		<layer className="ui.LayerAbout" x="783" y="520" w="330" h="98"/>
 	</frame>
 	<system>
 	

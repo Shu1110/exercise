@@ -1,15 +1,14 @@
 package ui;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 
-import javax.swing.ImageIcon;
+
 
 
 public class LayerGame extends Layer {
 	
-	private static final Image ACT=new ImageIcon("Graphics/game/rect.png").getImage();
+	
 
 	//Ó²±àÂë ÅäÖÃÎÄ¼ş
 	/**
@@ -48,7 +47,7 @@ public class LayerGame extends Layer {
 	 * @param g
 	 */
 	private void drawActByPoint(int x,int y,int imgIdx,Graphics g){
-		g.drawImage(ACT, 
+		g.drawImage(Img.ACT, 
 				this.x+(x<<SIZE_ROL)+5, 
 				this.y+(y<<SIZE_ROL)+5,
 				this.x+(x+1<<SIZE_ROL)+5,

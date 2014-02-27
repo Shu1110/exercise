@@ -33,9 +33,14 @@ public abstract class Layer {
 	 * 绘制窗体的宽度
 	 */
 	protected int h;	
-	
+	/**
+	 * 内边距
+	 */
 	protected static final int PADDING;
-	private static final int SIZE;
+	/**
+	 * 边框宽度
+	 */
+	protected static final int SIZE;
 
 	/**
 	 * 矩形值槽高度

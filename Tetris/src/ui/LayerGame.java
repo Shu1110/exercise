@@ -3,9 +3,6 @@ package ui;
 import java.awt.Graphics;
 import java.awt.Point;
 
-
-
-
 public class LayerGame extends Layer {
 	
 	
@@ -29,12 +26,16 @@ public class LayerGame extends Layer {
 		for(int i=0;i<points.length;i++){
 			drawActByPoint(points[i].x,points[i].y,typeCode+1,g);
 		}
-		//打印地图
+		//绘制地图
 		boolean[][] map=this.dto.getGameMap();
+		//计算当前堆积颜色
+		int lv=this.dto.getNowLevel();
+		int imgIdx=lv==0?0:(lv-1)%7+1;
+		//TODO 如果是输的情况 imgIdx=8
 		for(int x=0;x<map.length;x++){
 			for(int y=0;y<map[x].length;y++){
 				if(map[x][y]){
-					drawActByPoint(x,y,0,g);
+					drawActByPoint(x,y,imgIdx,g);
 				}
 			}
 		}

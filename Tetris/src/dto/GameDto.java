@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import entity.GameAct;
@@ -54,7 +56,7 @@ public class GameDto {
 	}
 
 	public void setDbRecode(List<Player> dbRecode) {
-		this.dbRecode = dbRecode;
+		this.dbRecode = this.setFillRecode(dbRecode);
 	}
 
 	public List<Player> getDiskRecode() {
@@ -62,7 +64,20 @@ public class GameDto {
 	}
 
 	public void setDiskRecode(List<Player> diskRecode) {
-		this.diskRecode = diskRecode;
+		this.diskRecode = this.setFillRecode(diskRecode);
+	}
+	
+	private List<Player> setFillRecode(List<Player> players){
+		//如果进来的是空，那么就创建
+		if(players==null){
+			players=new ArrayList<Player>();
+		}
+		//如果记录数小于5，那么就加到5条为止
+		while(players.size()<5){
+			players.add(new Player("No Data",0));
+		}
+		Collections.sort(players);
+		return players;
 	}
 
 	public boolean[][] getGameMap() {

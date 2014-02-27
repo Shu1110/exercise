@@ -40,7 +40,7 @@ public abstract class Layer {
 	/**
 	 * 矩形值槽高度
 	 */
-	private static final int IMG_RECT_H=Img.RECT.getHeight(null);
+	protected static final int IMG_RECT_H=Img.RECT.getHeight(null);
 	/**
 	 * 矩形值槽图片宽度
 	 */
@@ -147,7 +147,7 @@ public abstract class Layer {
 	/**
 	 * 绘制值槽
 	 */
-	protected void drawRect(int y,String title,String number,double value,double maxValue,Graphics g){
+	protected void drawRect(int y,String title,String number,double percent,Graphics g){
 		//各种值初始化
 		int rect_x=this.x+PADDING;
 		int rect_y=this.y+y;
@@ -158,13 +158,11 @@ public abstract class Layer {
 		g.fillRect(rect_x+1, rect_y+1, this.rectw-2, IMG_RECT_H+2);
 		g.setColor(Color.BLACK);
 		g.fillRect(rect_x+2,rect_y+2, this.rectw-4 , IMG_RECT_H);
-		//绘制值槽
-		//求出比例
-		double p=value / maxValue;
 		//求出高度
-		int w=(int)((p* (this.rectw-4)));
+		int w=(int)((percent* (this.rectw-4)));
 		//求出颜色
-		int subIdx= (int)(p*IMG_RECT_W);
+		int subIdx= (int)(percent*IMG_RECT_W)-1;
+		//绘制值槽
 		g.drawImage(Img.RECT, 
 				rect_x+2, rect_y+2, 
 				rect_x+2+w, rect_y+2+IMG_RECT_H,
@@ -174,7 +172,7 @@ public abstract class Layer {
 		g.setFont(DEF_FONT);
 		g.drawString(title,rect_x+4,rect_y+22);
 		if(number!=null){
-			//TODO 绘制数值
+			g.drawString(number,rect_x+232,rect_y+22);
 		}
 	}
 	/**

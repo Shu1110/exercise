@@ -2,7 +2,7 @@ package ui;
 
 import java.awt.Graphics;
 
-public class LayerDisk extends Layer {
+public class LayerDisk extends LayerData {
 	
 	
 
@@ -11,7 +11,7 @@ public class LayerDisk extends Layer {
 	}
 	public void paint(Graphics g){
 		this.createWindow(g);
-		g.drawImage(Img.LOCAL, this.x+PADDING, this.y+PADDING,null);
+		this.showData(Img.LOCAL, this.dto.getDiskRecode(), g);
 	}
 
 }

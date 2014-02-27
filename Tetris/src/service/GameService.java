@@ -1,9 +1,11 @@
 package service;
 
 import java.awt.Point;
+import java.util.List;
 import java.util.Random;
 
 import dto.GameDto;
+import dto.Player;
 import entity.GameAct;
 
 public class GameService {
@@ -86,6 +88,14 @@ public class GameService {
 		this.dto.setNowPoint(point);	
 		this.dto.setNowLevel(lv);
 		this.dto.setNowRemoveLine(rmLine);
+	}
+	
+	public void setDbRecode(List<Player> players){
+		this.dto.setDbRecode(players);
+	}
+	
+	public void setDiskRecode(List<Player> players){
+		this.dto.setDiskRecode(players);
 	}
 	
 }

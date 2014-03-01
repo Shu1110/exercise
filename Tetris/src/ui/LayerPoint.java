@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.Graphics;
 
+import config.GameConfig;
+
 public class LayerPoint extends Layer {		
 	/**
 	 * 分数最大位数
@@ -23,10 +25,10 @@ public class LayerPoint extends Layer {
 	 * 经验值y坐标
 	 */
 	private final int expY;
-	//TODO
-	private static final int LEVEL_UP=20;
-	
-	
+	/**
+	 * 升级行数
+	 */
+	private static final int LEVEL_UP=GameConfig.getSystemConfig().getLevleUp();
 	
 	public LayerPoint(int x,int y,int w,int h){
 		super(x, y, w, h);

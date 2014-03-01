@@ -1,7 +1,6 @@
 package ui;
 import javax.swing.*;
-
-import config.ConfigFactory;
+import config.FrameConfig;
 import config.GameConfig;
 
 import java.awt.Dimension;
@@ -9,17 +8,24 @@ import java.awt.Toolkit;
 public class JFrameGame extends JFrame {
 	public JFrameGame(JPanelGame panelGame){
 		//获得游戏配置
-		GameConfig cfg=ConfigFactory.getGameConfig();
-		this.setTitle(cfg.getTitle());
+		FrameConfig fCfg=GameConfig.getFrameConfig();
+		//设置标题
+		this.setTitle(fCfg.getTitle());
+		//设计默认关闭属性（程序结束）
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(cfg.getWidth(), cfg.getHeight());
+		//设置窗口大小
+		this.setSize(fCfg.getWidth(), fCfg.getHeight());
+		//不允许用户改变窗口大小
 		this.setResizable(false);
+		//居中
 		Toolkit toolkit=Toolkit.getDefaultToolkit();
 		Dimension screen=toolkit.getScreenSize();
 		int x=screen.width-this.getWidth()>>1;
-		int y=(screen.height-this.getHeight()>>1)-cfg.getWindowUp();
+		int y=(screen.height-this.getHeight()>>1)-fCfg.getWindowUp();
 		this.setLocation(x, y);
+		//设置默认panel
 		this.setContentPane(panelGame);
+		//默认该窗口为显示
 		this.setVisible(true);
 	}
 

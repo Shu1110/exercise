@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
-
-import config.ConfigFactory;
+import config.FrameConfig;
 import config.GameConfig;
 import config.LayerConfig;
 import control.PlayerControl;
@@ -46,9 +45,9 @@ public class JPanelGame extends JPanel{
 	private void initLayer(){
 		try{
 			//获得游戏配置
-			GameConfig cfg=ConfigFactory.getGameConfig();
+			FrameConfig fCfg=GameConfig.getFrameConfig();
 			//获得层配置
-			List<LayerConfig> layersCfg=cfg.getLayersConfig();
+			List<LayerConfig> layersCfg=fCfg.getLayersConfig();
 			//创建游戏层数组
 			layers=new ArrayList<Layer>(layersCfg.size());
 			//创建所有层对象

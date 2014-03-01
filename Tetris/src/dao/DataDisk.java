@@ -5,20 +5,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import dto.Player;
 
 public class DataDisk implements Data{
 	
-	private static final String FILE_PATH="save/recode.dat";
+	private final String filePath;
 	
+	public DataDisk(HashMap<String,String> param){
+		this.filePath=param.get("path");
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Player> loadData() {
 		ObjectInputStream ois=null;
 		List<Player> players=null;
 		try {
-			ois=new ObjectInputStream(new FileInputStream(FILE_PATH));
+			ois=new ObjectInputStream(new FileInputStream(filePath));
 			players=(List<Player>)ois.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -41,7 +47,7 @@ public class DataDisk implements Data{
 		//ÖØÐÂÐ´Èë
 		ObjectOutputStream oos=null;
 		try {
-			oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH));
+			oos = new ObjectOutputStream(new FileOutputStream(filePath));
 			oos.writeObject(players);
 		} catch (Exception e) {
 			e.printStackTrace();

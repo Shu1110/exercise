@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import config.GameConfig;
+
 import entity.GameAct;
 
 public class GameDto {
+	
+	private static final int GAMEZONE_W=GameConfig.getSystemConfig().getMaxX()+1;
+	
+	private static final int GAMEZONE_H=GameConfig.getSystemConfig().getMaxY()+1;
+	
 	/**
 	 * 数据库层数据
 	 */
@@ -47,8 +54,7 @@ public class GameDto {
 	}
 	
 	public void dtoInit(){
-		//TODO
-		this.gameMap=new boolean[10][18];
+		this.gameMap=new boolean[GAMEZONE_W][GAMEZONE_H];
 		//TODO 初始化所有游戏对象
 	}
 	public List<Player> getDbRecode() {

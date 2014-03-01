@@ -3,15 +3,14 @@ package ui;
 import java.awt.Graphics;
 import java.awt.Point;
 
-public class LayerGame extends Layer {
-	
-	
+import config.GameConfig;
 
-	//Ó²±àÂë ÅäÖÃÎÄ¼ş
+public class LayerGame extends Layer {
+
 	/**
 	 * ×óÎ»ÒÆÆ«ÒÆÁ¿
 	 */
-	private static final int SIZE_ROL=5;
+	private static final int SIZE_ROL=GameConfig.getFrameConfig().getSizeRol();
 	
 	public LayerGame(int x,int y,int w,int h){
 		super(x, y, w, h);

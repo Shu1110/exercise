@@ -43,7 +43,7 @@
 			<param key="dbPwd" value="shu1110"/>
 		</dataA>
 		<dataB className="dao.DataDisk">
-			<param key="path" value="save/recode.dat"/>
+			<param key="path" value="data/recode.dat"/>
 		</dataB>
 		
 	</data>

@@ -18,7 +18,7 @@ public class GameConfig {
 			// 创建XML读取器
 			SAXReader reader = new SAXReader();
 			// 获得XML文件
-			Document doc = reader.read("config/cfg.xml");
+			Document doc = reader.read("data/cfg.xml");
 			// 获得XML文件根节点
 			Element game=doc.getRootElement();
 			//创建界面配置对象

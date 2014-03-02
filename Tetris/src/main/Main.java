@@ -1,6 +1,6 @@
 package main;
 
-import service.GameService;
+import service.GameTetris;
 import ui.JFrameGame;
 import ui.JPanelGame;
 import control.GameControl;
@@ -14,7 +14,7 @@ public class Main {
 		//创建游戏面板
 		JPanelGame panel=new JPanelGame(dto);
 		//创建游戏逻辑块（连接游戏数据源）
-		GameService service=new GameService(dto);
+		GameTetris service=new GameTetris(dto);
 		//创建游戏控制器（连接游戏面板与游戏逻辑块）
 		GameControl gameControl=new GameControl(panel,service);
 		//创建游戏玩家控制器（连接游戏控制器）

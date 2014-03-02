@@ -1,10 +1,9 @@
 package ui;
 import javax.swing.*;
+
+import util.FrameUtil;
 import config.FrameConfig;
 import config.GameConfig;
-
-import java.awt.Dimension;
-import java.awt.Toolkit;
 public class JFrameGame extends JFrame {
 	public JFrameGame(JPanelGame panelGame){
 		//获得游戏配置
@@ -18,11 +17,7 @@ public class JFrameGame extends JFrame {
 		//不允许用户改变窗口大小
 		this.setResizable(false);
 		//居中
-		Toolkit toolkit=Toolkit.getDefaultToolkit();
-		Dimension screen=toolkit.getScreenSize();
-		int x=screen.width-this.getWidth()>>1;
-		int y=(screen.height-this.getHeight()>>1)-fCfg.getWindowUp();
-		this.setLocation(x, y);
+		FrameUtil.setFrameCenter(this);
 		//设置默认panel
 		this.setContentPane(panelGame);
 		//默认该窗口为显示

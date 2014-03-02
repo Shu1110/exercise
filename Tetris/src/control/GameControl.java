@@ -1,11 +1,16 @@
 package control;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import service.GameService;
+import service.GameTetris;
 import ui.JPanelGame;
 import config.DataInterfaceConfig;
 import config.GameConfig;
@@ -41,9 +46,9 @@ public class GameControl {
 	 */
 	private Map<Integer,Method> actionList;
 	
-	public GameControl(JPanelGame panelGame,GameService gameService){
+	public GameControl(JPanelGame panelGame,GameTetris gameTetris){
 		this.panelGame=panelGame;
-		this.gameService=gameService;
+		this.gameService=gameTetris;
 		//获得类对象
 		this.dataA=createDataObject(GameConfig.getDataConfig().getDataA());
 		//设置数据库记录到游戏
@@ -52,18 +57,28 @@ public class GameControl {
 		this.dataB=createDataObject(GameConfig.getDataConfig().getDataB());
 		//设置本地磁盘记录到游戏
 		this.gameService.setDiskRecode(dataB.loadData());
-		//初始化游戏行为
-		actionList=new HashMap<Integer,Method>();
-		//TODO 配置文件
-		try{
-			actionList.put(38, this.gameService.getClass().getMethod("keyUp"));
-			actionList.put(40, this.gameService.getClass().getMethod("keyDown"));
-			actionList.put(37, this.gameService.getClass().getMethod("keyLeft"));
-			actionList.put(39, this.gameService.getClass().getMethod("keyRight"));
-			actionList.put(87, this.gameService.getClass().getMethod("testLevelUp"));
-		}catch(Exception e){
+		//读取用户控制设置
+		this.setControlConfig();
+	}
+	
+	/**
+	 * 读取用户控制设置
+	 */
+	private void setControlConfig(){
+		//创建键盘码与方法名的映射数组
+		this.actionList=new HashMap<Integer,Method>();
+		try {
+			ObjectInputStream ois=new ObjectInputStream(new FileInputStream("data/control.dat"));
+			@SuppressWarnings("unchecked")
+			HashMap<Integer,String> cfgSet=(HashMap<Integer,String>)ois.readObject();
+			Set<Entry<Integer,String>> entryset=cfgSet.entrySet();
+			for(Entry<Integer,String> e:entryset){
+				actionList.put(e.getKey(), this.gameService.getClass().getMethod(e.getValue()));
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	/**

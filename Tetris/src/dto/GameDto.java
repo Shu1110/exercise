@@ -10,9 +10,15 @@ import entity.GameAct;
 
 public class GameDto {
 	
-	private static final int GAMEZONE_W=GameConfig.getSystemConfig().getMaxX()+1;
+	/**
+	 * 游戏宽度
+	 */
+	public static final int GAMEZONE_W=GameConfig.getSystemConfig().getMaxX()+1;
 	
-	private static final int GAMEZONE_H=GameConfig.getSystemConfig().getMaxY()+1;
+	/**
+	 * 游戏高度
+	 */
+	public static final int GAMEZONE_H=GameConfig.getSystemConfig().getMaxY()+1;
 	
 	/**
 	 * 数据库层数据
@@ -46,6 +52,12 @@ public class GameDto {
 	 * 消行
 	 */
 	private int nowRemoveLine;
+	
+	/**
+	 * 游戏是否是开始状态
+	 */
+	private boolean start;
+	
 	/**
 	 * 构造函数
 	 */
@@ -55,7 +67,6 @@ public class GameDto {
 	
 	public void dtoInit(){
 		this.gameMap=new boolean[GAMEZONE_W][GAMEZONE_H];
-		//TODO 初始化所有游戏对象
 	}
 	public List<Player> getDbRecode() {
 		return dbRecode;
@@ -132,6 +143,14 @@ public class GameDto {
 
 	public void setNowRemoveLine(int nowRemoveLine) {
 		this.nowRemoveLine = nowRemoveLine;
+	}
+
+	public boolean isStart() {
+		return start;
+	}
+
+	public void setStart(boolean start) {
+		this.start = start;
 	}
 	
 	

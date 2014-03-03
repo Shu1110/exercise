@@ -2,7 +2,9 @@ package config;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.dom4j.Element;
 
@@ -21,6 +23,8 @@ public class SystemConfig {
 	private final List<Point[]> typeConfig;
 	
 	private final List<Boolean> typeRound;
+	
+	private final Map<Integer,Integer> plusPoint;
 	
 	public SystemConfig(Element system){
 		this.minX=Integer.parseInt(system.attributeValue("minX"));
@@ -48,6 +52,14 @@ public class SystemConfig {
 			}
 			//把Point对象数组放到typeConfig中
 			typeConfig.add(points);
+		}
+		//获得连消加分配置
+		this.plusPoint=new HashMap<Integer,Integer>();
+		List<Element> plusPointCfg=system.elements("plusPoint");
+		for(Element cfg:plusPointCfg){
+			int rm=Integer.parseInt(cfg.attributeValue("rm"));
+			int point=Integer.parseInt(cfg.attributeValue("point"));
+			this.plusPoint.put(rm, point);
 		}
 	}
 
@@ -77,6 +89,10 @@ public class SystemConfig {
 
 	public List<Boolean> getTypeRound() {
 		return typeRound;
+	}
+
+	public Map<Integer, Integer> getPlusPoint() {
+		return plusPoint;
 	}
 	
 	

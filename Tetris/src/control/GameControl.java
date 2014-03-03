@@ -12,6 +12,7 @@ import java.util.Set;
 import service.GameService;
 import service.GameTetris;
 import ui.JPanelGame;
+import ui.config.FrameConfig;
 import config.DataInterfaceConfig;
 import config.GameConfig;
 import dao.Data;
@@ -42,6 +43,11 @@ public class GameControl {
 	private GameService gameService;
 	
 	/**
+	 * 游戏控制窗口
+	 */
+	private FrameConfig frameConfig;
+	
+	/**
 	 * 游戏行为控制
 	 */
 	private Map<Integer,Method> actionList;
@@ -59,6 +65,8 @@ public class GameControl {
 		this.gameService.setDiskRecode(dataB.loadData());
 		//读取用户控制设置
 		this.setControlConfig();
+		//初始化用户配置窗口
+		this.frameConfig=new FrameConfig(this);
 	}
 	
 	/**
@@ -110,5 +118,29 @@ public class GameControl {
 			e.printStackTrace();
 		} 
 		this.panelGame.repaint();	
+	}
+
+	/**
+	 * 显示玩家控制窗口
+	 */
+	public void showUserConfig() {
+		this.frameConfig.setVisible(true);
+	}
+
+	/**
+	 * 子窗口关闭事件
+	 */
+	public void setOver() {
+		this.panelGame.repaint();
+		this.setControlConfig();
+	}
+
+	/**
+	 * 开始按钮事件
+	 */
+	public void start() {
+		this.panelGame.buttonSwitch(false);
+		this.gameService.startMainThread();
+		this.panelGame.repaint();
 	}
 }

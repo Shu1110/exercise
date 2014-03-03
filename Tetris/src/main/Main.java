@@ -17,6 +17,8 @@ public class Main {
 		GameTetris service=new GameTetris(dto);
 		//创建游戏控制器（连接游戏面板与游戏逻辑块）
 		GameControl gameControl=new GameControl(panel,service);
+		//将游戏控制器对象交给Panel
+		panel.setGameControl(gameControl);
 		//创建游戏玩家控制器（连接游戏控制器）
 		PlayerControl control=new PlayerControl(gameControl);
 		//安装玩家控制器

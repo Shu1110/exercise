@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import util.FrameUtil;
+import control.GameControl;
 
 public class FrameConfig extends JFrame{
 	
@@ -36,6 +37,8 @@ public class FrameConfig extends JFrame{
 	
 	private JLabel errorMsg=new JLabel();
 	
+	private GameControl gameControl;
+	
 	private final static Image IMG_PSP=new ImageIcon("data/psp.jpg").getImage();
 	
 	private final static String[] METHOD_NAMES={
@@ -45,7 +48,9 @@ public class FrameConfig extends JFrame{
 	
 	private final static String PATH="data/control.dat";
 	
-	public FrameConfig(){
+	public FrameConfig(GameControl gameControl){
+		//获得游戏控制器对象
+		this.gameControl=gameControl;
 		//设置布局管理器为“边界布局”
 		this.setLayout(new BorderLayout());
 		this.setTitle("设置");
@@ -61,10 +66,6 @@ public class FrameConfig extends JFrame{
 		this.setSize(644,350);
 		// 居中
 		FrameUtil.setFrameCenter(this);
-		
-		//TODO p)测试
-		this.setDefaultCloseOperation(3);
-		this.setVisible(true);
 	}
 
 	/**
@@ -116,6 +117,7 @@ public class FrameConfig extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				if(writeConfig()){
 					setVisible(false);
+					gameControl.setOver();
 				}
 			}
 		});
@@ -125,6 +127,7 @@ public class FrameConfig extends JFrame{
 		this.btnCancel.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
+				gameControl.setOver();
 			}
 		});
 		jp.add(this.btnCancel);
@@ -193,9 +196,5 @@ public class FrameConfig extends JFrame{
 		}
 		this.errorMsg.setText(null);
 		return true;
-	}
-
-	public static void main(String args[]){
-		new FrameConfig();
 	}
 }

@@ -1,29 +1,47 @@
 package ui;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+
 import config.FrameConfig;
 import config.GameConfig;
 import config.LayerConfig;
+import control.GameControl;
 import control.PlayerControl;
 import dto.GameDto;
 public class JPanelGame extends JPanel{
 	
+	private static final int BTN_SIZE_W=GameConfig.getFrameConfig().getButtonConfig().getButtonW();
+
+	private static final int BTN_SIZE_H=GameConfig.getFrameConfig().getButtonConfig().getButtonH();
+	
 	private List<Layer> layers=null;
 	
 	private GameDto dto =null;
+	
+	private JButton btnStart;
+	
+	private JButton btnConfig;
+	
+	private GameControl gameControl=null;
+	
 	public JPanelGame(GameDto dto){
 		//获得dto对象
 		this.dto=dto;
+		//设置布局管理器为自由布局
+		this.setLayout(null);
 		//初始化组件
 		initComponent();
 		//初始化层
 		initLayer();
-		
 	}
+
 	/**
 	 * 安装游戏玩家控制器
 	 * @param control
@@ -36,7 +54,35 @@ public class JPanelGame extends JPanel{
 	 * 初始化组件
 	 */
 	private void initComponent(){
-		
+		// 初始化"开始"按钮
+		this.btnStart = new JButton(Img.BTN_START);
+		// 设置“开始”按钮位置
+		btnStart.setBounds(GameConfig.getFrameConfig().getButtonConfig()
+				.getStartX(), GameConfig.getFrameConfig().getButtonConfig()
+				.getStartY(), BTN_SIZE_W, BTN_SIZE_H);
+		//给开始按钮添加事件监听
+		this.btnStart.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				gameControl.start();
+			}
+			
+		});
+		// 添加按钮到面板
+		this.add(btnStart);
+		// 初始化“设置”按钮
+		this.btnConfig = new JButton(Img.BTN_CONFIG);
+		// 设置“设置”按钮位置
+		this.btnConfig.setBounds(GameConfig.getFrameConfig().getButtonConfig()
+				.getUserConfigX(), GameConfig.getFrameConfig()
+				.getButtonConfig().getUserConfigY(), BTN_SIZE_W, BTN_SIZE_H);
+		this.btnConfig.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				gameControl.showUserConfig();
+			}
+			
+		});
+		// 添加按钮到面板
+		this.add(btnConfig);
 	}
 	
 	/**
@@ -80,4 +126,15 @@ public class JPanelGame extends JPanel{
 		this.requestFocus();
 	}
 
+	/**
+	 * 控制按钮是否可点击
+	 */
+	public void buttonSwitch(boolean onOff){
+		this.btnConfig.setEnabled(onOff);
+		this.btnStart.setEnabled(onOff);
+	}
+	
+	public void setGameControl(GameControl gameControl) {
+		this.gameControl = gameControl;
+	}
 }

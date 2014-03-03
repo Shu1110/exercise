@@ -22,10 +22,15 @@ public class FrameConfig {
 	private final int sizeRol;
 	
 	private final int loseIdx;
+	
 	/**
 	 * 图层属性
 	 */
-	private List<LayerConfig> layersConfig;
+	private final List<LayerConfig> layersConfig;
+	/**
+	 * 按钮属性
+	 */
+	private final ButtonConfig buttonConfig;
 	
 	public FrameConfig(Element frame){
 		// 获取窗口高度
@@ -56,6 +61,8 @@ public class FrameConfig {
 					Integer.parseInt(layer.attributeValue("h")));
 			layersConfig.add(lc);
 		}
+		//初始化按钮属性
+		buttonConfig=new ButtonConfig(frame.element("button"));
 	}
 
 	public int getLoseIdx() {
@@ -93,7 +100,8 @@ public class FrameConfig {
 	public List<LayerConfig> getLayersConfig() {
 		return layersConfig;
 	}
-	
-	
 
+	public ButtonConfig getButtonConfig() {
+		return buttonConfig;
+	}
 }

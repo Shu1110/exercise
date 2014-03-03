@@ -9,42 +9,42 @@ public interface GameService {
 	/**
 	 * 方向键上
 	 */
-	public void keyUp();
+	public boolean keyUp();
 	
 	/**
 	 * 方向键下
 	 */
-	public void keyDown();
+	public boolean keyDown();
 	
 	/**
 	 * 方向键左
 	 */
-	public void keyLeft();
+	public boolean keyLeft();
 	
 	/**
 	 * 方向键右
 	 */
-	public void keyRight();
+	public boolean keyRight();
 	
 	/**
 	 * 三角
 	 */
-	public void keyFunUp();
+	public boolean keyFunUp();
 	
 	/**
 	 * 大叉
 	 */
-	public void keyFunDown();
+	public boolean keyFunDown();
 	
 	/**
 	 * 方块
 	 */
-	public void keyFunLeft();
+	public boolean keyFunLeft();
 	
 	/**
 	 * 圆圈
 	 */
-	public void keyFunRight();
+	public boolean keyFunRight();
 	
 	/**
 	 * 设置数据对象
@@ -55,4 +55,9 @@ public interface GameService {
 	 * 设置数据对象 
 	 */
 	public void setDiskRecode(List<Player> players);
+
+	/**
+	 * 启动主线程，开始游戏
+	 */
+	public void startMainThread();
 }

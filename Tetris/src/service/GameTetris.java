@@ -2,8 +2,10 @@ package service;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import config.GameConfig;
 import dto.GameDto;
 import dto.Player;
 import entity.GameAct;
@@ -18,28 +20,36 @@ public class GameTetris implements GameService{
 	/**
 	 * 方块种类个数
 	 */
-	private static final int MAX_TYPE=6;
+	private static final int MAX_TYPE=GameConfig.getSystemConfig().getTypeConfig().size()-1;
+	
+	/**
+	 * 升级行数
+	 */
+	private static final int LEVEL_UP=GameConfig.getSystemConfig().getLevleUp();
+	
+	/**
+	 * 连续消行分数表
+	 */
+	private static final Map<Integer,Integer> PLUS_POINT=GameConfig.getSystemConfig().getPlusPoint();
 	
 	public GameTetris(GameDto dto) {
 		this.dto = dto;
-		GameAct act=new GameAct(random.nextInt(MAX_TYPE));
-		dto.setGameAct(act);
 	}
 	
 	/**
 	 * 方块操作  上
 	 */
-	public void keyUp() {
-		// TODO 旋转
+	public boolean keyUp() {
 		this.dto.getGameAct().round(this.dto.getGameMap());
+		return true;
 	}
 	/**
 	 * 方块操作   下
 	 */
-	public void keyDown() {
+	public boolean keyDown() {
 		//方块向下移动，并判断是否移动成功
 		if(this.dto.getGameAct().move(0, 1,this.dto.getGameMap())){
-			return;
+			return false;
 		}
 		//获得游戏地图对象
 		boolean[][] map=this.dto.getGameMap();
@@ -49,34 +59,131 @@ public class GameTetris implements GameService{
 		for(int i=0;i<act.length;i++){
 			map[act[i].x][act[i].y]=true;
 		}
-		//TODO 判断是否可以消行
-		//TODO 		消行操作
-		//TODO		算分操作
-		//TODO			判断是否升级
-		//TODO			升级
-		//创建下一个方块
+		//判断消行，并计算获得经验值
+		int plusExp=this.plusExp();
+		//如果发生消行
+		if(plusExp>0){
+			//增加经验值
+			this.plusPoint(plusExp);
+		}
+		//刷新新的方块
 		this.dto.getGameAct().init(this.dto.getNext());
-
 		//随机生成再下一个方块
 		this.dto.setNext(random.nextInt(MAX_TYPE));
-			
+		//检查游戏是否失败
+		if(this.isLose()){
+			this.afterLose();
+		}
+		return true;
 	}
+
+	/**
+	 * 游戏失败后的处理
+	 */
+	private void afterLose() {
+		//设置游戏开始状态为false
+		this.dto.setStart(false);
+		//TODO 关闭游戏主线程
+	}
+
+	/**
+	 * 检查游戏是否失败
+	 */
+	private boolean isLose() {
+		//获得现在的活动方块
+		Point[] actPoints=this.dto.getGameAct().getActPoints();
+		//获得现在的游戏地图
+		boolean[][] map=this.dto.getGameMap();
+		for(int i=0;i<actPoints.length;i++){
+			if(map[actPoints[i].x][actPoints[i].y]){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 加分升级操作
+	 */
+	private void plusPoint(int plusExp) {
+		int lv=this.dto.getNowLevel();
+		int rmLine=this.dto.getNowRemoveLine();
+		int point=this.dto.getNowPoint();
+		if(rmLine % LEVEL_UP +plusExp>=LEVEL_UP){
+			this.dto.setNowLevel(++lv);
+		}
+		this.dto.setNowRemoveLine(rmLine+plusExp);
+		this.dto.setNowPoint(point+PLUS_POINT.get(plusExp));
+	}
+
 	/**
 	 * 方块操作   左
 	 */
-	public void keyLeft() {
+	public boolean keyLeft() {
 		this.dto.getGameAct().move(-1, 0,this.dto.getGameMap());
-		
+		return true;
 	}
 	/**
 	 * 方块操作  右
 	 */
-	public void keyRight() {
+	public boolean keyRight() {
 		this.dto.getGameAct().move(1, 0,this.dto.getGameMap());
+		return true;
 	}
 	
+	/**
+	 * 消行操作
+	 */
+	private int plusExp() {
+		//获得游戏地图
+		boolean[][] map=this.dto.getGameMap();
+		int exp=0;
+		//扫描游戏地图，查看是否有可消行
+		for(int y=0;y<GameDto.GAMEZONE_H;y++){
+			//判断是否可消行
+			if(this.isCanRemoveLine(y,map)){
+				//如果可以消行，则消行
+				this.removeLine(y,map);
+				//消行后增加经验值
+				exp++;
+			}
+		}
+		return exp;
+	}
+	
+	/**
+	 * 消行处理
+	 */
+	private void removeLine(int rowNumber, boolean[][] map) {
+		for(int x=0;x<GameDto.GAMEZONE_W;x++){
+			for(int y=rowNumber; y>0; y--){
+				map[x][y]=map[x][y-1];
+			}
+			map[x][0]=false;
+		}
+		
+	}
+
+	/**
+	 * 判断某一行是否可消除
+	 */
+	private boolean isCanRemoveLine(int y,boolean[][] map){
+		//单行内对每一个单元格进行扫描
+		for(int x=0;x<GameDto.GAMEZONE_W;x++){
+			if(!map[x][y]){
+				//如果有一个方格为false则直接跳到下一行
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 作弊键
+	 */
 	@Override
-	public void keyFunUp() {
+	public boolean keyFunUp() {
+		//TODO 注释
 		int point=this.dto.getNowPoint();
 		int rmLine=this.dto.getNowRemoveLine();
 		int lv=this.dto.getNowLevel();
@@ -88,24 +195,35 @@ public class GameTetris implements GameService{
 		this.dto.setNowPoint(point);	
 		this.dto.setNowLevel(lv);
 		this.dto.setNowRemoveLine(rmLine);
+		return true;
 	}
 
+	/**
+	 * 瞬间下落键
+	 */
 	@Override
-	public void keyFunDown() {
-		System.out.println("大叉被按下");
+	public boolean keyFunDown() {
+		while(!this.keyDown());
+		return true;
 	}
 
+	/**
+	 * 阴影开关（该程序未实现阴影功能）
+	 */
 	@Override
-	public void keyFunLeft() {
-		System.out.println("方块被按下");
-		
+	public boolean keyFunLeft() {
+		return true;
 	}
 
+	/**
+	 * 暂停功能键
+	 */
 	@Override
-	public void keyFunRight() {
-		System.out.println("圆圈被按下");
+	public boolean keyFunRight() {
+		//TODO 暂停
+		return true;
 	}
-	
+
 	public void setDbRecode(List<Player> players){
 		this.dto.setDbRecode(players);
 	}
@@ -113,4 +231,16 @@ public class GameTetris implements GameService{
 	public void setDiskRecode(List<Player> players){
 		this.dto.setDiskRecode(players);
 	}
+
+	@Override
+	public void startMainThread() {
+		//随机生成下一个方块
+		this.dto.setNext(random.nextInt(MAX_TYPE));
+		//随机生成现在方块
+		this.dto.setGameAct(new GameAct(random.nextInt(MAX_TYPE)));
+		//把游戏状态设为开始
+		this.dto.setStart(true);
+		//TODO 关闭线程
+	}
 }
+

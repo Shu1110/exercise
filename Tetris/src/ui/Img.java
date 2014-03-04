@@ -74,6 +74,11 @@ public class Img {
 	public static ImageIcon BTN_CONFIG=new ImageIcon("Graphics/string/config.png");
 	
 	/**
+	 * 暂停图片
+	 */
+	public static Image PAUSE=new ImageIcon("Graphics/string/pause.png").getImage();
+	
+	/**
 	 * 下一个图片数组
 	 */
 	public static Image[] NEXT_ACT;

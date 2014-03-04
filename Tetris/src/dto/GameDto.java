@@ -59,6 +59,11 @@ public class GameDto {
 	private boolean start;
 	
 	/**
+	 * ÔÝÍ£
+	 */
+	private boolean pause;
+	
+	/**
 	 * ¹¹Ôìº¯Êý
 	 */
 	public GameDto(){
@@ -152,6 +157,13 @@ public class GameDto {
 	public void setStart(boolean start) {
 		this.start = start;
 	}
-	
+
+	public boolean isPause() {
+		return pause;
+	}
+
+	public void changePause() {
+			this.pause = !this.pause;
+	}
 	
 }

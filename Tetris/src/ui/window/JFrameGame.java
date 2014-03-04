@@ -1,4 +1,4 @@
-package ui;
+package ui.window;
 import javax.swing.*;
 
 import util.FrameUtil;

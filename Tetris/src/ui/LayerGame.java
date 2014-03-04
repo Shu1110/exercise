@@ -29,6 +29,10 @@ public class LayerGame extends Layer {
 			}
 		//ªÊ÷∆”Œœ∑µÿÕº
 		this.drawMap(g);
+		//‘›Õ£
+		if(this.dto.isPause()){
+			this.drawImageAtCenter(Img.PAUSE, g);
+		}
 	}
 	
 	/**
@@ -72,10 +76,10 @@ public class LayerGame extends Layer {
 	private void drawActByPoint(int x,int y,int imgIdx,Graphics g){
 		imgIdx=this.dto.isStart()?imgIdx:LOSE_IDX;
 		g.drawImage(Img.ACT, 
-				this.x+(x<<SIZE_ROL)+5, 
-				this.y+(y<<SIZE_ROL)+5,
-				this.x+(x+1<<SIZE_ROL)+5,
-				this.y+(y+1<<SIZE_ROL)+5,
+				this.x+(x<<SIZE_ROL)+BORDER, 
+				this.y+(y<<SIZE_ROL)+BORDER,
+				this.x+(x+1<<SIZE_ROL)+BORDER,
+				this.y+(y+1<<SIZE_ROL)+BORDER,
 				imgIdx<<SIZE_ROL, 0, (imgIdx+1)<<SIZE_ROL, 1<<SIZE_ROL, null);
 
 	}

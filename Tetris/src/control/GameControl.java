@@ -11,9 +11,10 @@ import java.util.Set;
 
 import service.GameService;
 import service.GameTetris;
-import ui.JFrameGame;
-import ui.JPanelGame;
-import ui.config.FrameConfig;
+import ui.window.JFrameConfig;
+import ui.window.JFrameGame;
+import ui.window.JFrameSavePoint;
+import ui.window.JPanelGame;
 import config.DataInterfaceConfig;
 import config.GameConfig;
 import dao.Data;
@@ -45,9 +46,14 @@ public class GameControl {
 	private GameService gameService;
 	
 	/**
-	 * 游戏控制窗口
+	 * 游戏控制设置窗口
 	 */
-	private FrameConfig frameConfig;
+	private JFrameConfig jFrameConfig;
+	
+	/**
+	 * 保存分数窗口
+	 */
+	private JFrameSavePoint frameSavePoint;
 	
 	/**
 	 * 游戏行为控制
@@ -82,7 +88,9 @@ public class GameControl {
 		//读取用户控制设置
 		this.setControlConfig();
 		//初始化用户配置窗口
-		this.frameConfig=new FrameConfig(this);
+		this.jFrameConfig=new JFrameConfig(this);
+		//保存分数窗口
+		this.frameSavePoint=new JFrameSavePoint(this);
 		//初始化游戏主窗口，安装游戏面板
 		new JFrameGame(this.panelGame);
 	}
@@ -142,7 +150,7 @@ public class GameControl {
 	 * 显示玩家控制窗口
 	 */
 	public void showUserConfig() {
-		this.frameConfig.setVisible(true);
+		this.jFrameConfig.setVisible(true);
 	}
 
 	/**
@@ -162,29 +170,51 @@ public class GameControl {
 		//游戏数据初始化
 		this.gameService.startGame();
 		//创建线程对象
-		this.gameThread=new Thread(){
-			@Override
-			public void run(){
-				//刷新画面
-				panelGame.repaint();
-				//主循环
-				while(true){
-					try {
-						//等待0.5秒
-						Thread.sleep(500);
-						//游戏主行为
-						gameService.mainAction();
-						//刷新画面
-						panelGame.repaint();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
+		this.gameThread=new MainThread();
 		//启动线程
 		this.gameThread.start();
 		//刷新画面
 		this.panelGame.repaint();
 	}
+	
+	/**
+	 * 保存分数
+	 */
+	public void savePoint(String name){
+		
+	}
+	
+	/**
+	 * 游戏结束后的操作
+	 */
+	private void afterLose(){
+		this.frameSavePoint.showWindow(this.dto.getNowPoint());
+	}
+	
+	private class MainThread extends Thread {
+		@Override
+		public void run() {
+			// 刷新画面
+			panelGame.repaint();
+			// 主循环
+			while (dto.isStart()) {
+				try {
+					// 等待0.5秒
+					Thread.sleep(500);
+					//如果暂停，那么不执行主行为
+					if(dto.isPause()){
+						continue;
+					}
+					// 游戏主行为
+					gameService.mainAction();
+					// 刷新画面
+					panelGame.repaint();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			afterLose();
+		}
+	}
+	
 }

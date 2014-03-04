@@ -38,6 +38,9 @@ public class GameTetris implements GameService{
 	 * 方块操作  上
 	 */
 	public boolean keyUp() {
+		if(this.dto.isPause()){
+			return false;
+		}
 		synchronized(this.dto){
 			this.dto.getGameAct().round(this.dto.getGameMap());
 		}
@@ -47,6 +50,9 @@ public class GameTetris implements GameService{
 	 * 方块操作   下
 	 */
 	public boolean keyDown() {
+		if(this.dto.isPause()){
+			return false;
+		}
 		synchronized (this.dto){
 			//方块向下移动，并判断是否移动成功
 			if(this.dto.getGameAct().move(0, 1,this.dto.getGameMap())){
@@ -73,19 +79,11 @@ public class GameTetris implements GameService{
 			this.dto.setNext(random.nextInt(MAX_TYPE));
 			//检查游戏是否失败
 			if(this.isLose()){
-				this.afterLose();
+				//结束游戏
+				this.dto.setStart(false);
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * 游戏失败后的处理
-	 */
-	private void afterLose() {
-		//设置游戏开始状态为false
-		this.dto.setStart(false);
-		//TODO 关闭游戏主线程
 	}
 
 	/**
@@ -122,6 +120,9 @@ public class GameTetris implements GameService{
 	 * 方块操作   左
 	 */
 	public boolean keyLeft() {
+		if(this.dto.isPause()){
+			return false;
+		}
 		synchronized (this.dto){
 			this.dto.getGameAct().move(-1, 0,this.dto.getGameMap());
 		}
@@ -131,6 +132,9 @@ public class GameTetris implements GameService{
 	 * 方块操作  右
 	 */
 	public boolean keyRight() {
+		if(this.dto.isPause()){
+			return false;
+		}
 		synchronized (this.dto){
 			this.dto.getGameAct().move(1, 0,this.dto.getGameMap());
 		}
@@ -199,6 +203,9 @@ public class GameTetris implements GameService{
 	 */
 	@Override
 	public boolean keyFunDown() {
+		if(this.dto.isPause()){
+			return false;
+		}
 		while(!this.keyDown());
 		return true;
 	}
@@ -216,7 +223,9 @@ public class GameTetris implements GameService{
 	 */
 	@Override
 	public boolean keyFunRight() {
-		//TODO 暂停
+		if(this.dto.isStart()){
+			this.dto.changePause();
+		}
 		return true;
 	}
 	

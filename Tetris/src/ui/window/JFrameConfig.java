@@ -1,4 +1,4 @@
-package ui.config;
+package ui.window;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,7 +25,7 @@ import javax.swing.JTabbedPane;
 import util.FrameUtil;
 import control.GameControl;
 
-public class FrameConfig extends JFrame{
+public class JFrameConfig extends JFrame{
 	
 	private JButton btnOk=new JButton("确定");
 	
@@ -48,7 +48,7 @@ public class FrameConfig extends JFrame{
 	
 	private final static String PATH="data/control.dat";
 	
-	public FrameConfig(GameControl gameControl){
+	public JFrameConfig(GameControl gameControl){
 		//获得游戏控制器对象
 		this.gameControl=gameControl;
 		//设置布局管理器为“边界布局”

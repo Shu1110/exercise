@@ -20,12 +20,13 @@ public class LayerGame extends Layer {
 	}
 	public void paint(Graphics g){
 		this.createWindow(g);
-		if(this.dto.isStart()){
 			// 获得方块数组集合
-			Point[] points = this.dto.getGameAct().getActPoints();
-			// 绘制活动方块
-			this.drawMainAct(points,g);
-		}
+			GameAct act=this.dto.getGameAct();
+			if(act!=null){
+				Point[] points = this.dto.getGameAct().getActPoints();
+				// 绘制活动方块
+				this.drawMainAct(points,g);
+			}
 		//绘制游戏地图
 		this.drawMap(g);
 	}
@@ -39,7 +40,7 @@ public class LayerGame extends Layer {
 		int typeCode = this.dto.getGameAct().getTypeCode();
 		// 打印方块
 		for (int i = 0; i < points.length; i++) {
-			drawActByPoint(points[i].x, points[i].y, typeCode + 1, g);
+			this.drawActByPoint(points[i].x, points[i].y, typeCode + 1, g);
 		}
 	}
 	
@@ -56,7 +57,7 @@ public class LayerGame extends Layer {
 		for (int x = 0; x < map.length; x++) {
 			for (int y = 0; y < map[x].length; y++) {
 				if (map[x][y]) {
-					drawActByPoint(x, y, this.dto.isStart()? imgIdx:LOSE_IDX, g);
+					this.drawActByPoint(x, y,imgIdx, g);
 				}
 			}
 		}
@@ -69,6 +70,7 @@ public class LayerGame extends Layer {
 	 * @param g
 	 */
 	private void drawActByPoint(int x,int y,int imgIdx,Graphics g){
+		imgIdx=this.dto.isStart()?imgIdx:LOSE_IDX;
 		g.drawImage(Img.ACT, 
 				this.x+(x<<SIZE_ROL)+5, 
 				this.y+(y<<SIZE_ROL)+5,

@@ -1,13 +1,11 @@
 package service;
 
 import java.awt.Point;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import config.GameConfig;
 import dto.GameDto;
-import dto.Player;
 import entity.GameAct;
 
 public class GameTetris implements GameService{
@@ -40,39 +38,43 @@ public class GameTetris implements GameService{
 	 * 方块操作  上
 	 */
 	public boolean keyUp() {
-		this.dto.getGameAct().round(this.dto.getGameMap());
+		synchronized(this.dto){
+			this.dto.getGameAct().round(this.dto.getGameMap());
+		}
 		return true;
 	}
 	/**
 	 * 方块操作   下
 	 */
 	public boolean keyDown() {
-		//方块向下移动，并判断是否移动成功
-		if(this.dto.getGameAct().move(0, 1,this.dto.getGameMap())){
-			return false;
-		}
-		//获得游戏地图对象
-		boolean[][] map=this.dto.getGameMap();
-		//获得方块对象
-		Point[] act=this.dto.getGameAct().getActPoints();
-		//将方块堆积到地图数组
-		for(int i=0;i<act.length;i++){
-			map[act[i].x][act[i].y]=true;
-		}
-		//判断消行，并计算获得经验值
-		int plusExp=this.plusExp();
-		//如果发生消行
-		if(plusExp>0){
-			//增加经验值
-			this.plusPoint(plusExp);
-		}
-		//刷新新的方块
-		this.dto.getGameAct().init(this.dto.getNext());
-		//随机生成再下一个方块
-		this.dto.setNext(random.nextInt(MAX_TYPE));
-		//检查游戏是否失败
-		if(this.isLose()){
-			this.afterLose();
+		synchronized (this.dto){
+			//方块向下移动，并判断是否移动成功
+			if(this.dto.getGameAct().move(0, 1,this.dto.getGameMap())){
+				return false;
+			}
+			//获得游戏地图对象
+			boolean[][] map=this.dto.getGameMap();
+			//获得方块对象
+			Point[] act=this.dto.getGameAct().getActPoints();
+			//将方块堆积到地图数组
+			for(int i=0;i<act.length;i++){
+				map[act[i].x][act[i].y]=true;
+			}
+			//判断消行，并计算获得经验值
+			int plusExp=this.plusExp();
+			//如果发生消行
+			if(plusExp>0){
+				//增加经验值
+				this.plusPoint(plusExp);
+			}
+			//刷新新的方块
+			this.dto.getGameAct().init(this.dto.getNext());
+			//随机生成再下一个方块
+			this.dto.setNext(random.nextInt(MAX_TYPE));
+			//检查游戏是否失败
+			if(this.isLose()){
+				this.afterLose();
+			}
 		}
 		return true;
 	}
@@ -120,14 +122,18 @@ public class GameTetris implements GameService{
 	 * 方块操作   左
 	 */
 	public boolean keyLeft() {
-		this.dto.getGameAct().move(-1, 0,this.dto.getGameMap());
+		synchronized (this.dto){
+			this.dto.getGameAct().move(-1, 0,this.dto.getGameMap());
+		}
 		return true;
 	}
 	/**
 	 * 方块操作  右
 	 */
 	public boolean keyRight() {
-		this.dto.getGameAct().move(1, 0,this.dto.getGameMap());
+		synchronized (this.dto){
+			this.dto.getGameAct().move(1, 0,this.dto.getGameMap());
+		}
 		return true;
 	}
 	
@@ -184,17 +190,7 @@ public class GameTetris implements GameService{
 	@Override
 	public boolean keyFunUp() {
 		//TODO 注释
-		int point=this.dto.getNowPoint();
-		int rmLine=this.dto.getNowRemoveLine();
-		int lv=this.dto.getNowLevel();
-		point+=10;
-		rmLine+=1;
-		if(rmLine % 20==0){
-			lv+=1;
-		}
-		this.dto.setNowPoint(point);	
-		this.dto.setNowLevel(lv);
-		this.dto.setNowRemoveLine(rmLine);
+		this.plusPoint(4);
 		return true;
 	}
 
@@ -223,24 +219,20 @@ public class GameTetris implements GameService{
 		//TODO 暂停
 		return true;
 	}
-
-	public void setDbRecode(List<Player> players){
-		this.dto.setDbRecode(players);
-	}
 	
-	public void setDiskRecode(List<Player> players){
-		this.dto.setDiskRecode(players);
-	}
-
 	@Override
-	public void startMainThread() {
+	public void startGame() {
 		//随机生成下一个方块
 		this.dto.setNext(random.nextInt(MAX_TYPE));
 		//随机生成现在方块
 		this.dto.setGameAct(new GameAct(random.nextInt(MAX_TYPE)));
 		//把游戏状态设为开始
 		this.dto.setStart(true);
-		//TODO 关闭线程
+	}
+	
+	@Override
+	public void mainAction(){
+		this.keyDown();
 	}
 }
 

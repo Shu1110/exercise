@@ -23,31 +23,23 @@ public class JPanelGame extends JPanel{
 	
 	private List<Layer> layers=null;
 	
-	private GameDto dto =null;
-	
 	private JButton btnStart;
 	
 	private JButton btnConfig;
 	
 	private GameControl gameControl=null;
 	
-	public JPanelGame(GameDto dto){
-		//获得dto对象
-		this.dto=dto;
+	public JPanelGame(GameControl gameControl,GameDto dto){
+		//链接游戏控制器
+		this.gameControl=gameControl;
 		//设置布局管理器为自由布局
 		this.setLayout(null);
 		//初始化组件
-		initComponent();
+		this.initComponent();
 		//初始化层
-		initLayer();
-	}
-
-	/**
-	 * 安装游戏玩家控制器
-	 * @param control
-	 */
-	public void setGameControl(PlayerControl control){
-		this.addKeyListener(control);
+		this.initLayer(dto);
+		//安装键盘监听器
+		this.addKeyListener(new PlayerControl(gameControl));
 	}
 	
 	/**
@@ -88,7 +80,7 @@ public class JPanelGame extends JPanel{
 	/**
 	 * 初始化层 
 	 */
-	private void initLayer(){
+	private void initLayer(GameDto dto){
 		try{
 			//获得游戏配置
 			FrameConfig fCfg=GameConfig.getFrameConfig();
@@ -107,7 +99,7 @@ public class JPanelGame extends JPanel{
 					layerCfg.getX(),layerCfg.getY(),layerCfg.getW(),layerCfg.getH()
 				);
 				//设置游戏数据对象
-				layer.setDto(this.dto);
+				layer.setDto(dto);
 				//把创建的Layer对象放入集合
 				layers.add(layer);
 			}
@@ -132,9 +124,5 @@ public class JPanelGame extends JPanel{
 	public void buttonSwitch(boolean onOff){
 		this.btnConfig.setEnabled(onOff);
 		this.btnStart.setEnabled(onOff);
-	}
-	
-	public void setGameControl(GameControl gameControl) {
-		this.gameControl = gameControl;
 	}
 }

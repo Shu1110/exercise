@@ -1,9 +1,5 @@
 package service;
 
-import java.util.List;
-
-import dto.Player;
-
 public interface GameService {
 	
 	/**
@@ -45,19 +41,14 @@ public interface GameService {
 	 * 圆圈
 	 */
 	public boolean keyFunRight();
-	
-	/**
-	 * 设置数据对象
-	 */
-	public void setDbRecode(List<Player> players);
-	
-	/**
-	 * 设置数据对象 
-	 */
-	public void setDiskRecode(List<Player> players);
 
 	/**
 	 * 启动主线程，开始游戏
 	 */
-	public void startMainThread();
+	public void startGame();
+	
+	/**
+	 * 游戏主要行为
+	 */
+	public void mainAction();
 }

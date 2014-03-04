@@ -43,7 +43,6 @@ public class JFrameSavePoint extends JFrame{
 	 * 显示窗口
 	 */
 	public void showWindow(int point){
-		System.out.println("ddd");
 		this.lbPoint.setText("您的得分："+point);
 		this.setVisible(true);
 	}
@@ -54,7 +53,7 @@ public class JFrameSavePoint extends JFrame{
 	private void createAction() {
 		this.btnOk.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				String name=txName.getText();
 				if(name.length()>10 || name==null|| "" .equals(name)){
 					errMsg.setText("名字格式输入错误");

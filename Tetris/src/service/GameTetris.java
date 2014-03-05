@@ -39,7 +39,7 @@ public class GameTetris implements GameService{
 	 */
 	public boolean keyUp() {
 		if(this.dto.isPause()){
-			return false;
+			return true;
 		}
 		synchronized(this.dto){
 			this.dto.getGameAct().round(this.dto.getGameMap());
@@ -51,7 +51,7 @@ public class GameTetris implements GameService{
 	 */
 	public boolean keyDown() {
 		if(this.dto.isPause()){
-			return false;
+			return true;
 		}
 		synchronized (this.dto){
 			//方块向下移动，并判断是否移动成功
@@ -121,7 +121,7 @@ public class GameTetris implements GameService{
 	 */
 	public boolean keyLeft() {
 		if(this.dto.isPause()){
-			return false;
+			return true;
 		}
 		synchronized (this.dto){
 			this.dto.getGameAct().move(-1, 0,this.dto.getGameMap());
@@ -133,7 +133,7 @@ public class GameTetris implements GameService{
 	 */
 	public boolean keyRight() {
 		if(this.dto.isPause()){
-			return false;
+			return true;
 		}
 		synchronized (this.dto){
 			this.dto.getGameAct().move(1, 0,this.dto.getGameMap());
@@ -193,7 +193,7 @@ public class GameTetris implements GameService{
 	 */
 	@Override
 	public boolean keyFunUp() {
-		//TODO 注释
+		this.dto.setCheat(true);
 		this.plusPoint(4);
 		return true;
 	}
@@ -204,7 +204,7 @@ public class GameTetris implements GameService{
 	@Override
 	public boolean keyFunDown() {
 		if(this.dto.isPause()){
-			return false;
+			return true;
 		}
 		while(!this.keyDown());
 		return true;
@@ -237,6 +237,8 @@ public class GameTetris implements GameService{
 		this.dto.setGameAct(new GameAct(random.nextInt(MAX_TYPE)));
 		//把游戏状态设为开始
 		this.dto.setStart(true);
+		//dto初始化
+		this.dto.dtoInit();
 	}
 	
 	@Override

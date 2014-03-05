@@ -2,7 +2,9 @@ package ui.window;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,11 +17,14 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import util.FrameUtil;
@@ -36,6 +41,8 @@ public class JFrameConfig extends JFrame{
 	private TextCtrl[] keyText=new TextCtrl[8];
 	
 	private JLabel errorMsg=new JLabel();
+	
+	private JLabel jlSkin=new JLabel();
 	
 	private GameControl gameControl;
 	
@@ -147,10 +154,23 @@ public class JFrameConfig extends JFrame{
 	private JTabbedPane createMainPanel() {
 		JTabbedPane jtp=new JTabbedPane();
 		jtp.addTab("控制设置",this.createControlPanel());
-		jtp.addTab("皮肤设置",new JLabel(""));
+		jtp.addTab("皮肤设置",this.createSkinPanel());
 		return jtp;
 	}
 	
+	/**
+	 * 玩家皮肤面板
+	 */
+	private Component createSkinPanel() {
+		JPanel panel=new JPanel(new BorderLayout());
+		this.jlSkin=new JLabel("没有更多的图片素材，请将就着使用 (─.─|||");
+		this.jlSkin.setFont(new Font("黑体",Font.BOLD,20));
+		this.setForeground(Color.red);
+		panel.add(this.jlSkin);
+		panel.add(this.jlSkin,BorderLayout.CENTER);
+		return panel;
+	}
+
 	/**
 	 * 玩家控制设置面板
 	 * @return

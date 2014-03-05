@@ -1,10 +1,18 @@
 package config;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-public class GameConfig {
+public class GameConfig  implements Serializable{
 	
 	private static FrameConfig FRAME_CONFIG=null;
 	
@@ -12,9 +20,12 @@ public class GameConfig {
 	
 	private static SystemConfig SYSTEM_CONFIG=null;
 	
+	private static final boolean IS_DEBUG=false;
+	
 	static{
 		
 		try {
+			if(IS_DEBUG){
 			// 创建XML读取器
 			SAXReader reader = new SAXReader();
 			// 获得XML文件
@@ -27,7 +38,17 @@ public class GameConfig {
 			SYSTEM_CONFIG=new SystemConfig(game.element("system"));
 			//创建数据访问配置对象
 			DATA_CONFIG=new DataConfig(game.element("data"));
-		} catch (Exception e) {
+		}else{
+			ObjectInputStream ois=new ObjectInputStream(new FileInputStream("data/framecfg.dat"));
+			FRAME_CONFIG=(FrameConfig)ois.readObject();
+			ois=new ObjectInputStream(new FileInputStream("data/systemcfg.dat"));
+			SYSTEM_CONFIG=(SystemConfig)ois.readObject();
+			ois=new ObjectInputStream(new FileInputStream("data/datacfg.dat"));
+			DATA_CONFIG=(DataConfig)ois.readObject();
+			ois.close();
+		}
+			
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -60,6 +81,5 @@ public class GameConfig {
 		return DATA_CONFIG;
 	}
 
-	
 
 }

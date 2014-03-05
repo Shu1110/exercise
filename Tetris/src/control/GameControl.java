@@ -19,6 +19,7 @@ import config.DataInterfaceConfig;
 import config.GameConfig;
 import dao.Data;
 import dto.GameDto;
+import dto.Player;
 /**
  *接收玩家键盘事件
  *控制画面
@@ -68,7 +69,7 @@ public class GameControl {
 	/**
 	 * 游戏数据源
 	 */
-	private GameDto dto;
+	private GameDto dto=null;
 	
 	public GameControl(){
 		//创建游戏数据源
@@ -167,6 +168,9 @@ public class GameControl {
 	public void start() {
 		//面板按钮设置为不可点击
 		this.panelGame.buttonSwitch(false);
+		//关闭窗口
+		this.jFrameConfig.setVisible(false);
+		this.frameSavePoint.setVisible(false);
 		//游戏数据初始化
 		this.gameService.startGame();
 		//创建线程对象
@@ -181,14 +185,27 @@ public class GameControl {
 	 * 保存分数
 	 */
 	public void savePoint(String name){
-		
+		Player pla=new Player(name,this.dto.getNowPoint());
+		//保存记录到数据库
+		this.dataA.saveData(pla);
+		//保存记录到本地磁盘
+		this.dataB.saveData(pla);
+		//设置数据库记录到游戏
+		this.dto.setDbRecode(dataA.loadData());
+		//设置磁盘记录到游戏
+		this.dto.setDiskRecode(dataB.loadData());
+		//刷新画面
+		this.panelGame.repaint();
 	}
 	
 	/**
 	 * 游戏结束后的操作
 	 */
 	private void afterLose(){
-		this.frameSavePoint.showWindow(this.dto.getNowPoint());
+		if(!this.dto.isCheat()){
+		 this.frameSavePoint.showWindow(this.dto.getNowPoint());
+		}
+		 this.panelGame.buttonSwitch(true);
 	}
 	
 	private class MainThread extends Thread {
@@ -199,8 +216,8 @@ public class GameControl {
 			// 主循环
 			while (dto.isStart()) {
 				try {
-					// 等待0.5秒
-					Thread.sleep(500);
+					// 线程睡眠
+					Thread.sleep(dto.getSleepTime());
 					//如果暂停，那么不执行主行为
 					if(dto.isPause()){
 						continue;

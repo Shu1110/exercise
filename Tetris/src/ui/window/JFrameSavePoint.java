@@ -43,6 +43,7 @@ public class JFrameSavePoint extends JFrame{
 	 * 显示窗口
 	 */
 	public void showWindow(int point){
+		System.out.println("ddd");
 		this.lbPoint.setText("您的得分："+point);
 		this.setVisible(true);
 	}
@@ -58,6 +59,7 @@ public class JFrameSavePoint extends JFrame{
 				if(name.length()>10 || name==null|| "" .equals(name)){
 					errMsg.setText("名字格式输入错误");
 				}else{
+					setVisible(false);
 					gameControl.savePoint(name);
 				}
 			}
@@ -75,7 +77,7 @@ public class JFrameSavePoint extends JFrame{
 		//创建分数文字
 		this.lbPoint=new JLabel();
 		//添加分数文字到北部面板
-		north.add(lbPoint);
+		north.add(this.lbPoint);
 		//创建错误信息控件
 		this.errMsg=new JLabel();
 		this.errMsg.setForeground(Color.RED);
@@ -101,6 +103,5 @@ public class JFrameSavePoint extends JFrame{
 		south.add(btnOk);
 		//南部面板添加到主面板
 		this.add(south,BorderLayout.SOUTH);
-		
 	}
 }

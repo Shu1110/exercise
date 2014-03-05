@@ -20,17 +20,17 @@ public class LayerGame extends Layer {
 	}
 	public void paint(Graphics g){
 		this.createWindow(g);
-			// 获得方块数组集合
-			GameAct act=this.dto.getGameAct();
-			if(act!=null){
-				Point[] points = this.dto.getGameAct().getActPoints();
-				// 绘制活动方块
-				this.drawMainAct(points,g);
-			}
-		//绘制游戏地图
+		// 获得方块数组集合
+		GameAct act = this.dto.getGameAct();
+		if (act != null) {
+			Point[] points = act.getActPoints();
+			// 绘制活动方块
+			this.drawMainAct(points, g);
+		}
+		// 绘制游戏地图
 		this.drawMap(g);
-		//暂停
-		if(this.dto.isPause()){
+		// 暂停
+		if (this.dto.isPause()) {
 			this.drawImageAtCenter(Img.PAUSE, g);
 		}
 	}
